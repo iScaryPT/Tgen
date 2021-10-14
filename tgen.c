@@ -43,6 +43,8 @@ void parseOutput(char* arg) {
 		char* parsed = strtok(NULL, delimiters);
 		if(parsed == NULL) break;
 
+		if(!strcmp(parsed,"eps")) continue;
+
 		int in = 0;
 		while(parsed[in] != '\0')
         	outp[index++] = parsed[in++];
