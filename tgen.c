@@ -59,6 +59,7 @@ void parseOutput(char* arg) {
 void genInput(char* arg) {
 	int i = 0;
   int flagMonth = 0;
+  int count = 0;
   char tmpStr[3];
 	for(i; arg[i] != '\0'; i++){
     if(flagMonth > 0){
@@ -87,12 +88,13 @@ void genInput(char* arg) {
       }
     }
     if(flagMonth == 0){
-		    printf("%i	%i	%s	%s\n",i,i+1,tmpStr,tmpStr);
-        memset(tmpStr,0,3);
+		    printf("%i	%i	%s	%s\n",count,count+1,tmpStr,tmpStr);
+        memset(tmpStr,0,3*sizeof(char));
+        count++;
     }
   }
 
-	printf("%i\n",i);
+	printf("%i\n",count);
 }
 
 int main(int argc, char** argv){
@@ -101,4 +103,3 @@ int main(int argc, char** argv){
 
 	return 0;
 }
-
