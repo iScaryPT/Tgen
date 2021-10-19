@@ -13,16 +13,16 @@ struct argp_option options[] =
  };
 
 static int parse_opt (int key, char *arg, struct argp_state *state) {
-	
+
 	switch (key){
  		case 'i': genInput(arg); break;
 		case 'o': parseOutput(arg); break;
  	}
- 	
-	return 0;
-} 
 
-struct argp argp = { options, parse_opt }; 
+	return 0;
+}
+
+struct argp argp = { options, parse_opt };
 
 void parseOutput(char* arg) {
 	FILE* file;
@@ -35,7 +35,7 @@ void parseOutput(char* arg) {
 
 	int index = 0;
     while (fgets(line, sizeof(line), file)) {
-		
+
 		int x = 0;
 		strtok(line, delimiters);
 		while(x < 2) { strtok(NULL, delimiters); x++; }
@@ -52,21 +52,53 @@ void parseOutput(char* arg) {
     }
 
     fclose(file);
-    
+
     printf("%s\n", outp);
 }
 
 void genInput(char* arg) {
 	int i = 0;
-	for(i; arg[i] != '\0'; i++)
-		printf("%i	%i	%c	%c\n",i,i+1,arg[i],arg[i]);
-	
+  int flagMonth = 0;
+  char tmpStr[3];
+	for(i; arg[i] != '\0'; i++){
+    if(flagMonth > 0){
+      tmpStr[flagMonth] = arg[i];
+      flagMonth++;
+      if(flagMonth > 2){
+        flagMonth = 0;
+      }
+    }
+    else{
+      switch (arg[i]) {
+        case 'J':
+        case 'F':
+        case 'M':
+        case 'A':
+        case 'S':
+        case 'O':
+        case 'N':
+        case 'D':
+          tmpStr[flagMonth] = arg[i];
+          flagMonth++;
+          break;
+        default:
+          tmpStr[flagMonth] = arg[i];
+          break;
+      }
+    }
+    if(flagMonth == 0){
+		    printf("%i	%i	%s	%s\n",i,i+1,tmpStr,tmpStr);
+        memset(tmpStr,0,3);
+    }
+  }
+
 	printf("%i\n",i);
 }
 
 int main(int argc, char** argv){
-	
-	argp_parse (&argp, argc, argv, 0, 0, 0); 
+
+	argp_parse (&argp, argc, argv, 0, 0, 0);
 
 	return 0;
 }
+
