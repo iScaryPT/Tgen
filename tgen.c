@@ -73,14 +73,24 @@ void genInput(char* arg) {
       switch (arg[i]) {
         case 'J':
         case 'F':
-        case 'M':
         case 'A':
         case 'S':
         case 'O':
         case 'N':
-        case 'D':
           tmpStr[flagMonth] = arg[i];
           flagMonth++;
+          break;
+        case 'M':
+          tmpStr[flagMonth] = arg[i];
+          if(arg[i+1] == 'a'){
+          	flagMonth++;
+          }
+          break;
+        case 'D':
+          tmpStr[flagMonth] = arg[i];
+          if(arg[i+1] == 'e'){
+          	flagMonth++;
+          }
           break;
         default:
           tmpStr[flagMonth] = arg[i];
